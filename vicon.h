@@ -15,6 +15,7 @@
 #include <fstream>
 #include <cassert>
 #include <ctime>
+#include <sstream>
 
 #ifdef WIN32
   #include <conio.h>   // For _kbhit()
