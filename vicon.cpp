@@ -1,5 +1,33 @@
 #include "vicon.h"
 
+struct viconData {
+	int frameNumber;
+	double frameRate;
+	double headPosition[3];
+	int headPOccluded;
+	double headRotation[3];
+	int headROccluded;
+	double eyeRXY[2];
+	int eyeRXYOccluded;
+	double eyeRXYZ[3];
+	int eyeRXYZOccluded;
+	double eyeLXY[2];
+	int eyeLXYOccluded;
+	double eyeLXYZ[3];
+	int eyeLXYZOccluded;
+	double eyeRPosition[3];
+	int eyeRPOccluded;
+	double eyeLPosition[3];
+	int eyeLPOccluded;
+	double eyeRGaze[3];
+	int eyeRGazeOccluded;
+	double eyeLGaze[3];
+	int eyeLGazeOccluded;
+};
+
+viconData *buffer = NULL;
+
+
 void vicon (std::string hostname) {
     Client MyClient;
 
@@ -71,7 +99,7 @@ void vicon (std::string hostname) {
             // get frame info
             Output_GetFrameNumber _Output_GetFrameNumber = MyClient.GetFrameNumber();
             datastring << _Output_GetFrameNumber.FrameNumber << ",";
-            /**
+            
             Output_GetFrameRate Rate = MyClient.GetFrameRate();
             datastring << Rate.FrameRateHz << ",";
 
@@ -148,7 +176,7 @@ void vicon (std::string hostname) {
                 datastring << _Output_GetEyeTrackerGlobalGazeVector.GazeVector[0] << "," << _Output_GetEyeTrackerGlobalGazeVector.GazeVector[1] << "," << _Output_GetEyeTrackerGlobalGazeVector.GazeVector[2] << ",";
                 datastring << Adapt( _Output_GetEyeTrackerGlobalGazeVector.Occluded );
             }
-**/
+
             std::cout << datastring.str() << std::endl;
         }
 
@@ -171,7 +199,7 @@ void vicon (std::string hostname) {
 int main( int argc, char* argv[] )
 {
     std::filebuf buf;
-    buf.open("TESTJUSTFRAMENUM_REG", std::ios::out);
+    buf.open("S014_ONEFOURTHSPEED", std::ios::out);
     std::streambuf* oldbuf = std::cout.rdbuf( &buf ) ;
 
     vicon("130.127.48.127:801");

@@ -7,6 +7,9 @@
 
 
 #include "tcp.h"
+#include "ViconData.h"
+
+ViconData test;
 
 using namespace std;
  
