@@ -12,8 +12,8 @@ H	= h
 CFLAGS 	= -g
 #LDFLAGS 	= -L. -lViconDataStreamSDK_CPP -lDebugServices
 
-HFILES 	= ViconData.${H} tcp.${H} 
-OFILES 	= ViconData.o tcp.o 
+HFILES 	= ViconData.${H} tcp.${H}
+OFILES 	= ViconData.o tcp.o
 PROJECT = viconmaya
 
 ${PROJECT}:	${PROJECT}.o $(OFILES)

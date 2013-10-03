@@ -99,7 +99,7 @@ void vicon (std::string hostname) {
             // get frame info
             Output_GetFrameNumber _Output_GetFrameNumber = MyClient.GetFrameNumber();
             datastring << _Output_GetFrameNumber.FrameNumber << ",";
-            
+
             Output_GetFrameRate Rate = MyClient.GetFrameRate();
             datastring << Rate.FrameRateHz << ",";
 
@@ -154,7 +154,7 @@ void vicon (std::string hostname) {
                                                          DeviceOutputSubsample );
 
                         //datastring << _Output_GetDeviceOutputName.DeviceOutputName << ",";
-                        datastring << _Output_GetDeviceOutputValue.Value << ",";
+                        datastring << "EyePG," << _Output_GetDeviceOutputValue.Value << ",";
                         //datastring << Adapt( _Output_GetDeviceOutputName.DeviceOutputUnit ) << " "
                         datastring << Adapt( _Output_GetDeviceOutputValue.Occluded )  << ",";
 
@@ -174,7 +174,7 @@ void vicon (std::string hostname) {
                 Output_GetEyeTrackerGlobalGazeVector _Output_GetEyeTrackerGlobalGazeVector = MyClient.GetEyeTrackerGlobalGazeVector( EyeTrackerIndex );
 
                 datastring << _Output_GetEyeTrackerGlobalGazeVector.GazeVector[0] << "," << _Output_GetEyeTrackerGlobalGazeVector.GazeVector[1] << "," << _Output_GetEyeTrackerGlobalGazeVector.GazeVector[2] << ",";
-                datastring << Adapt( _Output_GetEyeTrackerGlobalGazeVector.Occluded );
+                datastring << Adapt( _Output_GetEyeTrackerGlobalGazeVector.Occluded ) << ",";
             }
 
             std::cout << datastring.str() << std::endl;
