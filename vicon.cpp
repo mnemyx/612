@@ -154,13 +154,15 @@ void vicon (std::string hostname) {
                                                          DeviceOutputSubsample );
 
                         //datastring << _Output_GetDeviceOutputName.DeviceOutputName << ",";
-                        datastring << "EyePG," << _Output_GetDeviceOutputValue.Value << ",";
+                        datastring << _Output_GetDeviceOutputValue.Value << ",";
                         //datastring << Adapt( _Output_GetDeviceOutputName.DeviceOutputUnit ) << " "
                         datastring << Adapt( _Output_GetDeviceOutputValue.Occluded )  << ",";
 
                     }
                 }
             }
+
+            datastring << "EyePG,";
 
             // Output eye tracker information.
             unsigned int EyeTrackerCount = MyClient.GetEyeTrackerCount().EyeTrackerCount;
@@ -198,8 +200,13 @@ void vicon (std::string hostname) {
 
 int main( int argc, char* argv[] )
 {
+    if(argc!=2) {
+        fprintf(stderr, "wrong usage. need filename");
+        exit(1);
+    }
+
     std::filebuf buf;
-    buf.open("S014_ONEFOURTHSPEED", std::ios::out);
+    buf.open(argv[1], std::ios::out);
     std::streambuf* oldbuf = std::cout.rdbuf( &buf ) ;
 
     vicon("130.127.48.127:801");

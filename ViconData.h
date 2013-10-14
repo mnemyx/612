@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <iostream>
+#include <cstring>
 
 class ViconData {
 public:
@@ -40,6 +41,9 @@ public:
 	double eyeRAngles[2];
 	double eyeLAngles[2];
 
+	int hasEyeRAngles;
+	int hasEyeLAngles;
+
     void Reset();
 	ViconData();
 	const ViconData& operator=(const ViconData& source);
@@ -48,6 +52,8 @@ public:
 
 	void PrintData();
 	void ConvertEyeData();
+	void ToSendToMaya(char *msgbuffer, size_t len);
+	int IsEmpty();
 };
 
 #endif

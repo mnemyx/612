@@ -15,6 +15,7 @@
 #include <fstream>
 #include <cassert>
 #include <ctime>
+#include <cstdlib>
 #include <sstream>
 
 #ifdef WIN32

@@ -5,12 +5,12 @@ using namespace std;
 void ViconData::Reset() {
     int i;
 
-    frameNumber = blink = 0;
+    frameNumber = blink = hasEyeLAngles = hasEyeRAngles = 0;
     frameRate = 0.0;
 
     headPOccluded = headROccluded =  eyeRPOccluded = eyeLPOccluded = eyeRGazeOccluded = eyeLGazeOccluded = 0;
 
-    for(i = 0; i++; i < 3) {
+    for(i = 0; i < 3; i++) {
         headPosition[i] = headRotation[i] = eyeRXYZ[i] = eyeLXYZ[i] = eyeRPosition[i] = eyeLPosition[i] = eyeRGaze[i] = eyeLGaze[i] = eyeLXYOccluded[i] = eyeLXYZOccluded[i] = 0.0;
 
         if(i < 2) {
@@ -37,6 +37,9 @@ ViconData::ViconData(const ViconData& o) {
     eyeRGazeOccluded = o.eyeRGazeOccluded;
     eyeLGazeOccluded = o.eyeLGazeOccluded;
 
+    hasEyeLAngles = o.hasEyeLAngles;
+    hasEyeRAngles = o.hasEyeRAngles;
+
     for(i = 0; i < 3; i++) {
         headPosition[i] = o.headPosition[i];
         headRotation[i] = o.headRotation[i];
@@ -61,6 +64,8 @@ ViconData::ViconData(const ViconData& o) {
 }
 
 const ViconData& ViconData::operator=(const ViconData& o) {
+    ViconData temp(o);
+
     int i;
 
     frameNumber = o.frameNumber;
@@ -73,6 +78,9 @@ const ViconData& ViconData::operator=(const ViconData& o) {
     eyeLPOccluded = o.eyeLPOccluded;
     eyeRGazeOccluded = o.eyeRGazeOccluded;
     eyeLGazeOccluded = o.eyeLGazeOccluded;
+
+    hasEyeLAngles = o.hasEyeLAngles;
+    hasEyeRAngles = o.hasEyeRAngles;
 
     for(i = 0; i < 3; i++) {
         headPosition[i] = o.headPosition[i];
@@ -117,7 +125,8 @@ bool ViconData::operator==(const ViconData& two) {
             && (eyeLXY[0] == two.eyeLXY[0]) && (eyeRAngles[0] == two.eyeRAngles[0]) && (eyeLAngles[0] == two.eyeLAngles[0])
             && (eyeRXYOccluded[0] == two.eyeRXYOccluded[0]) && (eyeRXYZOccluded[0] ==  two.eyeRXYZOccluded[0]) && (eyeRXY[1] == two.eyeRXY[1])
             && (eyeLXY[1] == two.eyeLXY[1]) && (eyeRAngles[1] == two.eyeRAngles[1]) && (eyeLAngles[1] == two.eyeLAngles[1])
-            && (eyeRXYOccluded[1] == two.eyeRXYOccluded[1]) && (eyeRXYZOccluded[1] == two.eyeRXYZOccluded[1]));
+            && (eyeRXYOccluded[1] == two.eyeRXYOccluded[1]) && (eyeRXYZOccluded[1] == two.eyeRXYZOccluded[1])
+            && (hasEyeRAngles == two.hasEyeRAngles) && (hasEyeLAngles == two.hasEyeLAngles));
 }
 
 void ViconData::PrintData() {
@@ -134,8 +143,8 @@ void ViconData::PrintData() {
     cout << "Vicon Eye-R Gaze: " << eyeLGazeOccluded << " (" << eyeRGaze[0] << ", " << eyeRGaze[1] << ", " << eyeRGaze[2] << ")" << endl;
     cout << "Vicon Eye-L Position: " << eyeLPOccluded << " (" << eyeLPosition[0] << ", " << eyeLPosition[1] << ", " << eyeLPosition[2] << ")" << endl;
     cout << "Vicon Eye-L Gaze: " << eyeLGazeOccluded << " (" << eyeLGaze[0] << ", " << eyeLGaze[1] << ", " << eyeLGaze[2] << ")" << endl;
-    cout << "Calc Eye-R Rotation: " << "(" << eyeRAngles[0] << ", " << eyeRAngles[1] << ")" << endl;
-    cout << "Calc Eye-L Rotation: " << "(" << eyeLAngles[0] << ", " << eyeLAngles[1] << ")" << endl << endl;
+    cout << "Calc Eye-R Rotation: " << hasEyeRAngles << " (" << eyeRAngles[0] << ", " << eyeRAngles[1] << ")" << endl;
+    cout << "Calc Eye-L Rotation: " << hasEyeLAngles << " (" << eyeLAngles[0] << ", " << eyeLAngles[1] << ")" << endl << endl;
 }
 
 void ViconData::ConvertEyeData() {
@@ -143,11 +152,32 @@ void ViconData::ConvertEyeData() {
     if(!eyeRXYZOccluded[0] && !eyeRXYZOccluded[1] && !eyeRXYZOccluded[2] && eyeRXYZ[2] != 0) {
         eyeRAngles[0] = tan(eyeRXYZ[0] / eyeRXYZ[2]);
         eyeRAngles[1] = tan(eyeRXYZ[1] / eyeRXYZ[2]);
-    } else { eyeRAngles[0] = 0; eyeRAngles[1] = 0; }
+        hasEyeLAngles = 1;
+    } else { eyeRAngles[0] = 0; eyeRAngles[1] = 0; hasEyeRAngles = 0; }
 
-    if(!eyeRXYZOccluded[0] && !eyeRXYZOccluded[1] && !eyeRXYZOccluded[2] && eyeRXYZ[2] != 0) {
+    if(!eyeLXYZOccluded[0] && !eyeLXYZOccluded[1] && !eyeLXYZOccluded[2] && eyeLXYZ[2] != 0) {
         eyeLAngles[0] = tan(eyeLXYZ[0] / eyeLXYZ[2]);
         eyeLAngles[1] = tan(eyeLXYZ[1] / eyeLXYZ[2]);
-    } else { eyeLAngles[0] = 0; eyeLAngles[1] = 0; }
+        hasEyeLAngles = 1;
+    } else { eyeLAngles[0] = 0; eyeLAngles[1] = 0;  hasEyeLAngles = 0;}
 
+}
+
+void ViconData::ToSendToMaya(char *msgbuffer, size_t len) {
+
+    char msg[len];
+
+    sprintf(msg, "Head,%d,%lf,%lf,%lf,EyeR,%d,%lf,%lf,EyeL,%d,%lf,%lf",
+            headROccluded,headPosition[0],headPosition[1], headPosition[2],
+            hasEyeRAngles,eyeRAngles[0],eyeRAngles[1],
+            hasEyeLAngles,eyeLAngles[0],eyeLAngles[1]);
+
+    strcpy(msgbuffer,msg);
+}
+
+int ViconData::IsEmpty() {
+    ViconData temp;
+
+    if(*this == temp) return true;
+    else return false;
 }
