@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <assert.h>
 #include <time.h>
+#include <errno.h>
 
 template <class Token>
 class VQueue {
@@ -18,6 +19,7 @@ public:
     void add(Token& token);
     Token get();
     char* file();
+    void complete();
 
 private:
     std::vector<Token> buffer;

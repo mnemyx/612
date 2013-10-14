@@ -38,6 +38,7 @@ template<class Token>
 Token VQueue<Token>::get() {
     Token token;
     struct timespec ts;
+    struct timeval tp;
     int rc;
 
     /* Convert from timeval to timespec */
