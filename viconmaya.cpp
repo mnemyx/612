@@ -14,6 +14,7 @@
 #include "tcp.h"
 #include "ViconData.h"
 #include "VQueue.cpp"
+#include "Vicon.h"
 
 #define MAX_TOKENS_PER_LINE     50
 #define MAX_LINE_BUFFER         10000
@@ -21,6 +22,7 @@
 using namespace std;
 
 typedef VQueue<ViconData> Buffer;
+typedef VQueue<stringstream> Viconstream;
 
 extern "C" int getBoolean(char *tf) {
     if(strcmp(tf, "True") == 0) return 1;
@@ -155,41 +157,64 @@ extern "C" void* readFrames(void *arg) {
         n = parseData(MAX_TOKENS_PER_LINE, buf, token, &temp);
 
         if(!(temp==nullvd)) {
-            cout << "PRODUCER: " << endl;
-            temp.PrintData();
+            //cout << "PRODUCER: " << endl;
+            //temp.PrintData();
             buffer->add(temp);
         }
         //sleep(1);
     }
 
-    buffer->complete();
-
     return 0;
 }
 
+/**
 extern "C" void* sendFrames(void *arg) {
     Buffer* buffer = (Buffer*) arg;
-
+    char msg[5000];
     ViconData frame;
 
     frame = buffer->get();
     while(!frame.IsEmpty()) {
-        cout << "CONSUMER: " << endl;
-        frame.PrintData();
+        cout << endl << "CONSUMER: " << endl;
+        frame.ToSendToMaya(msg, 5000);
+        cout << msg << endl;
 
-        frame.Reset();
+        //frame.PrintData();
+
         frame = buffer->get();
-
-        frame.PrintData();
+        frame.ToSendToMaya(msg, 5000);
+        cout << msg;
     }
 
-    cout << "I GOT HERE" << endl;
+    return 0;
+} **/
+
+extern "C" void* sendFrames(void *arg) {
+    Buffer* buffer = (Buffer*) arg;
+    char msg[5000];
+    ViconData frame;
+    tcp_client c;
+
+    c.conn("192.168.2.19", 7777);
+
+    frame = buffer->get();
+    while(!frame.IsEmpty()) {
+        frame.ToSendToMaya(msg, 5000);
+        c.send_data((string)msg);
+
+        sleep(1);
+
+        frame = buffer->get();
+    }
+
     return 0;
 }
 
 
 int main(int argc , char *argv[]) {
     if(argc != 3) { cout << "no file to read in/write to" << endl; exit(1); }
+
+    cout << "Hit CTRL+C to end program" << endl;
 
     VQueue<ViconData> buffer(10000, argv[1]);
 

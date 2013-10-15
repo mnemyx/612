@@ -52,7 +52,7 @@ public:
 
 	void PrintData();
 	void ConvertEyeData();
-	void ToSendToMaya(char *msgbuffer, size_t len);
+	void ToSendToMaya(char *msgbuffer, int len);
 	int IsEmpty();
 };
 

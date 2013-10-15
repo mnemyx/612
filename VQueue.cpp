@@ -4,7 +4,7 @@ using namespace std;
 
 template<class Token>
 VQueue<Token>::VQueue(unsigned int size, char* file) :
-    buffer(size), logfile(file), filled(0), in(0), out(0), prodcomplete(0)
+    buffer(size), logfile(file), filled(0), in(0), out(0)
 {
     pthread_mutex_init(&mutex, 0);
     pthread_cond_init(&nonEmpty, 0);
@@ -37,23 +37,10 @@ void VQueue<Token>::add(Token& token) {
 template<class Token>
 Token VQueue<Token>::get() {
     Token token;
-    struct timespec ts;
-    struct timeval tp;
-    int rc;
-
-    /* Convert from timeval to timespec */
-    ts.tv_sec  = tp.tv_sec;
-    ts.tv_nsec = tp.tv_usec * 1000;
-    ts.tv_sec += 10;
 
     pthread_mutex_lock(&mutex);
-
     if(filled == 0) {
-        rc = pthread_cond_timedwait(&nonEmpty, &mutex, &ts);
-        if(rc == ETIMEDOUT && prodcomplete) {
-            pthread_mutex_unlock(&mutex);
-            pthread_exit(NULL);
-        }
+        pthread_cond_wait(&nonEmpty, &mutex);
     }
 
     assert(filled > 0);
@@ -72,8 +59,4 @@ char* VQueue<Token>::file() {
     return logfile;
 }
 
-template<class Token>
-void VQueue<Token>::complete() {
-    prodcomplete = 1;
-}
 

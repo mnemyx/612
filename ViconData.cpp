@@ -163,12 +163,12 @@ void ViconData::ConvertEyeData() {
 
 }
 
-void ViconData::ToSendToMaya(char *msgbuffer, size_t len) {
+void ViconData::ToSendToMaya(char *msgbuffer, int len) {
 
     char msg[len];
 
-    sprintf(msg, "Head,%d,%lf,%lf,%lf,EyeR,%d,%lf,%lf,EyeL,%d,%lf,%lf",
-            headROccluded,headPosition[0],headPosition[1], headPosition[2],
+    sprintf(msg, "Frame,%d,Head,%d,%lf,%lf,%lf,Blink,%d,EyeR,%d,%lf,%lf,EyeL,%d,%lf,%lf",
+            frameNumber, headROccluded,headPosition[0],headPosition[1], headPosition[2], blink,
             hasEyeRAngles,eyeRAngles[0],eyeRAngles[1],
             hasEyeLAngles,eyeLAngles[0],eyeLAngles[1]);
 

@@ -6,6 +6,8 @@
 #include <assert.h>
 #include <time.h>
 #include <errno.h>
+#include <iostream>
+#include <cstdlib>
 
 template <class Token>
 class VQueue {
@@ -19,7 +21,6 @@ public:
     void add(Token& token);
     Token get();
     char* file();
-    void complete();
 
 private:
     std::vector<Token> buffer;
@@ -27,7 +28,6 @@ private:
     unsigned int in;        // next frame
     unsigned int out;       // where to take from
     char *logfile;          //
-    int prodcomplete;
     pthread_mutex_t mutex;
     pthread_cond_t nonEmpty;
     pthread_cond_t nonFull;
