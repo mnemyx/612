@@ -43,7 +43,7 @@ MISC FILES
 SAMPLE OUTPUT FILES
 ==================================================================
 	From Vicon:
-	Frame_Number,FramesPerSecond,Head,TranslateX,TranslateY,TranslateZ,Occluded,RotateX,RotateY,RotateZ,Occluded,[Eye-R,X,Occluded,Y,Occluded,RayX,Occluded,RayY,Occluded,RayZ,Occluded,][Eye-L,X,Occluded,Y,Occluded,RayX,Occluded,RayY,Occluded,RayZ,Occluded,][EyePG,(Eye-R)PositionX,PositionY,PositionZ,Occluded,GazeX,GazeY,GazeZ,Occluded,(Eye-L)PositionX,PositionY,PositionZ,Occluded,GazeX,GazeY,GazeZ,Occluded)
+	Frame_Number,FramesPerSecond,Head,TranslateX,TranslateY,TranslateZ,Occluded,RotateX,RotateY,RotateZ,Occluded,[Eye-R,X,Occluded,Y,Occluded,RayX,Occluded,RayY,Occluded,RayZ,Occluded,][Eye-L,X,Occluded,Y,Occluded,RayX,Occluded,RayY,Occluded,RayZ,Occluded,][EyePG,(Eye-R)PositionX,PositionY,PositionZ,Occluded,GazeX,GazeY,GazeZ,Occluded,(Eye-L)PositionX,PositionY,PositionZ,Occluded,GazeX,GazeY,GazeZ,Occluded,]
 
 
 TOTAL FILE COUNT
