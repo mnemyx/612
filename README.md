@@ -20,15 +20,16 @@ DESCRIPTION
 	Vicon SDK 1.53.0 2013/05/23 Release for Linux 64bit
 	Python Scripting in Maya
 	
-	Usage: viconmaya [ViconHost] [MayaHost] [Logfile] [-s: toggle keyframe]
-
+	Usage: viconmaya [read/write to file [nolog | logonly] [Maya IP, if nolog]
 
 
 FILES
 ==================================================================
 	viconmaya.cpp
+	vicon.h
 	tcp.h, tcp.cpp
-	vicon.cpp, vicon.h
+	ViconData.h, ViconData.cpp
+	VQueue.h, VQueue.cpp
 
 
 
@@ -41,7 +42,8 @@ MISC FILES
 
 SAMPLE OUTPUT FILES
 ==================================================================
-	log
+	From Vicon:
+	Frame_Number,FramesPerSecond,Head,TranslateX,TranslateY,TranslateZ,Occluded,RotateX,RotateY,RotateZ,Occluded,[Eye-R,X,Occluded,Y,Occluded,RayX,Occluded,RayY,Occluded,RayZ,Occluded,][Eye-L,X,Occluded,Y,Occluded,RayX,Occluded,RayY,Occluded,RayZ,Occluded,][EyePG,(Eye-R)PositionX,PositionY,PositionZ,Occluded,GazeX,GazeY,GazeZ,Occluded,(Eye-L)PositionX,PositionY,PositionZ,Occluded,GazeX,GazeY,GazeZ,Occluded)
 
 
 TOTAL FILE COUNT
