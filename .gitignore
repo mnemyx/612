@@ -41,5 +41,7 @@ Thumbs.db
 .metadata/
 *.depend
 *.cbp
+*.cbTemp
+*.layout
 
-
+ignore/

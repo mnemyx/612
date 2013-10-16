@@ -6,6 +6,10 @@
 #include <cstdio>
 #include <iostream>
 #include <cstring>
+#include <fstream>
+
+#define MAX_TOKENS_PER_LINE     50
+#define MAX_LINE_BUFFER         10000
 
 class ViconData {
 public:
@@ -44,6 +48,8 @@ public:
 	int hasEyeRAngles;
 	int hasEyeLAngles;
 
+	std::string viconMsg;
+
     void Reset();
 	ViconData();
 	const ViconData& operator=(const ViconData& source);
@@ -53,6 +59,9 @@ public:
 	void PrintData();
 	void ConvertEyeData();
 	void ToSendToMaya(char *msgbuffer, int len);
+	void SerializeData();
+	void SaveToFile(std::ofstream* log);
+	int getBoolean(char *tf);
 	int IsEmpty();
 };
 

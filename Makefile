@@ -10,10 +10,9 @@ CC      = g++
 C	= cpp
 H	= h
 CFLAGS 	= -g
-LDFLAGS = -pthread
-#LDFLAGS 	= -L. -lViconDataStreamSDK_CPP -lDebugServices
+LDFLAGS = -pthread -L. -lViconDataStreamSDK_CPP -lDebugServices
 
-HFILES 	= VQueue.${H} ViconData.${H} tcp.${H}
+HFILES 	= vicon.${H} VQueue.${H} ViconData.${H} tcp.${H}
 OFILES 	= VQueue.o ViconData.o tcp.o
 PROJECT = viconmaya
 
